@@ -1,9 +1,0 @@
-package com.shopme.admin.user;
-
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-
-@DataJpaTest
-@AutoConfigureTestDatabase(replace - Replace.NONE)
-public class UserRepositoryTest {
-
-}

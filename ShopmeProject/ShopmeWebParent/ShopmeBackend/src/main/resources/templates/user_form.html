@@ -63,7 +63,7 @@
 		</div>
 
 			<form th:action="@{/users/save}" method="post" style = "max-width: 900px; margin: 0 auto"
-			th:object="${user}">
+			th:object="${user}" onsubmit = "return checkEmailUnique(this);">
 				<div class="border border-secondary rounded  p-3">
 					<div class="form-group row">
 						<lable class="col-sm-4 col-form-lable">E-mail</lable>
@@ -126,6 +126,18 @@
 		<div class="text-center">
 			<p>Shopme Control Panel - Copyright &copy; Shopme</p>
 		</div>
-		
+		<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$("#buttonCancel").on("click", function(){
+					window.location = "[[@{/users}]]";
+				});
+			});
+			
+			function checkEmailUnique(form){
+				alert('check email unique');
+				return false;
+			}
+		</script> -->
 	</body>
 </html>
