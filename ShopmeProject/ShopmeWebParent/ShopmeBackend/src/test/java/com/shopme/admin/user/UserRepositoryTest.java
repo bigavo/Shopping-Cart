@@ -77,7 +77,7 @@ public class UserRepositoryTest {
 		
 		@Test
 		public void testDeleteUser() {
-			Integer userId = 3;
+			Integer userId = 22;
 			repo.deleteById(userId);
 		}
 		
@@ -88,6 +88,7 @@ public class UserRepositoryTest {
 			
 			assertThat(countById).isNotNull().isGreaterThan(0);
 		}
+		
 		
 		
 }

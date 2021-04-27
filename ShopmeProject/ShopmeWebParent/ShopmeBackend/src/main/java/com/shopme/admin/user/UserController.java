@@ -15,6 +15,8 @@ import com.shopme.common.entity.User;
 @Controller
 public class UserController {
 	@Autowired
+	private UserRepository repo;
+	@Autowired
 	private UserService service;
 	@GetMapping("/users")
 	public String listAll(Model model) {
@@ -47,16 +49,54 @@ public class UserController {
 			Model model,
 			RedirectAttributes redirectAttributes) {
 		try {
-			
-		User user = service.get(id);
-		List<Role> listRoles = service.listRoles();
-		model.addAttribute("user", user);
-		model.addAttribute("listRoles", listRoles);
-		model.addAttribute("pageTitle", "Edit User (ID: " + id + ")" );
-		return "user_form";
+				
+			User user = service.get(id);
+			List<Role> listRoles = service.listRoles();
+			model.addAttribute("user", user);
+			model.addAttribute("listRoles", listRoles);
+			model.addAttribute("pageTitle", "Edit User (ID: " + id + ")" );
+	
+			redirectAttributes.addFlashAttribute("message", "The changes has been successfully saved.");
+			return "user_form";
 		} catch (UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
+			return "redirect:/users";
 		}
-		return "redirect:/users";
+		
 	}
+	
+//	
+	@GetMapping("/users/delete/{id}")
+	public String deleteUser(@PathVariable(name = "id") Integer id,
+		Model model,
+		RedirectAttributes redirectAttributes) throws UserNotFoundException {
+		Long countById = repo.countById(id);
+		if(countById == null || countById == null) {
+				throw new UserNotFoundException("Could not find any user with id: " + id);
+			} 
+			repo.deleteById(id);
+			redirectAttributes.addFlashAttribute("message", "The user ID " + id + "has been deleted successfully");
+			return "redirect:/users";
+		}
+	
+//	@GetMapping("/users/delete/{id}")
+//	public String deleteUser(@PathVariable(name = "id") Integer id,
+//			Model model,
+//			RedirectAttributes redirectAttributes) {
+//		try {
+//			service.delete(id);;
+//			redirectAttributes.addFlashAttribute("message", "The user ID " + id + "has been deleted successfully");
+//			return "redirect:/users";
+//		} catch (UserNotFoundException ex) {
+//			redirectAttributes.addFlashAttribute("message", ex.getMessage());
+//			return "redirect:/users";
+//		}
+//		
+//	}
+	
+	@GetMapping("/login")
+	public String viewLoginPage() {
+		return "login";
+	}
+	
 }
