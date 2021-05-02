@@ -94,9 +94,4 @@ public class UserController {
 //		
 //	}
 	
-	@GetMapping("/login")
-	public String viewLoginPage() {
-		return "login";
-	}
-	
 }

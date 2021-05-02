@@ -15,7 +15,6 @@ import com.shopme.common.entity.User;
 public class ShopmeUserDetails implements UserDetails {
 
 	private User user;
-		
 	
 	
 	public ShopmeUserDetails(User user) {
@@ -25,18 +24,19 @@ public class ShopmeUserDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<Role> roles = user.getRoles();
-		List<SimpleGrantedAuthority> authorities = new ArrayList();
 		
-		for(Role role : roles ) {
-			authorities.add(new SimpleGrantedAuthority(role.getName()));
-		} 
-		return authorities;
+		List<SimpleGrantedAuthority> authories = new ArrayList<>();
+		
+		for (Role role : roles) {
+			authories.add(new SimpleGrantedAuthority(role.getName()));
+		}
+		
+		return authories;
 	}
 
 	@Override
 	public String getPassword() {
 		return user.getPassword();
-		
 	}
 
 	@Override
@@ -63,5 +63,16 @@ public class ShopmeUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		return user.isEnabled();
 	}
+	
+	public String getFullname() {
+		return this.user.getFirstName() + " " + this.user.getLastName();
+	}
+	
+	public void setFirstName(String firstName) {
+		this.user.setFirstName(firstName);
+	}
 
+	public void setLastName(String lastName) {
+		this.user.setLastName(lastName);
+	}	
 }

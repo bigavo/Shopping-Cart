@@ -1,7 +1,9 @@
 package com.shopme.admin.user;
-
+import org.springframework.data.domain.Sort;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +13,7 @@ import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
 @Service
+@Transactional
 public class UserService {
 	@Autowired
 	private UserRepository userRepo;
@@ -21,8 +24,12 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	public User getByEmail(String email) {
+		return userRepo.getUserByEmail(email);
+	}
+	
 	public List<User> listAll(){
-		return (List<User>) userRepo.findAll();
+		return (List<User>) userRepo.findAll(Sort.by("firstName").ascending());
 	}
 	public List<Role> listRoles(){
 		return (List<Role>) roleRepo.findAll();
@@ -42,8 +49,6 @@ public class UserService {
 		} else {
 			encodePassword(user);
 		}
-		
-		encodePassword(user);
 		userRepo.save(user);
 		
 	}
